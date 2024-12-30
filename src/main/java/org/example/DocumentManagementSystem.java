@@ -29,16 +29,16 @@ public class DocumentManagementSystem {
 
         final int separatorIndex = path.lastIndexOf('.');
         if (separatorIndex == -1) {
-            throw new UnknowFileTypeException("No extension found for file: " + path);
+            throw new UnknownFileTypeException("No extension found for file: " + path);
         }
         if (separatorIndex == path.length() - 1) {
-            throw new UnknowFileTypeException("No extension found for file: " + path);
+            throw new UnknownFileTypeException("No extension found for file: " + path);
         }
 
         final String extension = path.substring(separatorIndex + 1);
         final Importer importer = extensionToImporter.get(extension);
         if (importer == null) {
-            throw new UnknowFileTypeException("For file:" + path);
+            throw new UnknownFileTypeException("For file:" + path);
         }
         final Document document = importer.importFile(file);
         documents.add(document);
