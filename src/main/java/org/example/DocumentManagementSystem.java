@@ -43,4 +43,19 @@ public class DocumentManagementSystem {
         final Document document = importer.importFile(file);
         documents.add(document);
     }
+
+    public List<Document> contents() {
+        return this.documents;
+    }
+
+    public List<Document> search(final String queryString) {
+        List<Document> results = new ArrayList<>();
+        Query query = Query.parse(queryString);
+        for (Document document : documents) {
+            if (query.test(document)) {
+                results.add(document);
+            }
+        }
+        return results;
+    }
 }
