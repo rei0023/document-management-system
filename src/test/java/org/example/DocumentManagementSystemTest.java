@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class DocumentManagementSystemTest {
     private static final String RESOURCE_PATH = "src/test/resources/";
     private static final String LETTER_PATH = RESOURCE_PATH + "patient.letter";
+    private static final String XRAY_PATH = RESOURCE_PATH + "xray.jpg";
     private static final String PATIENT_NAME = "Alan Turing";
 
     private final DocumentManagementSystem documentManagementSystem = new DocumentManagementSystem();
@@ -42,6 +43,18 @@ public class DocumentManagementSystemTest {
                         "with Dr. Avaj from 29 December 2024 to 5th January 2025.");
 
         assertTypeIs("LETTER", document);
+    }
+
+    @Test
+    public void shouldImportImageAttributes() throws IOException {
+        documentManagementSystem.importFile(XRAY_PATH);
+
+        final Document document = getOnlyOneDocument();
+
+        assertAttributesEquals(document, Attributes.WIDTH, "599");
+        assertAttributesEquals(document, Attributes.HEIGHT, "360");
+        assertTypeIs("IMAGE", document);
+
     }
 
     private void assertTypeIs(String type, Document document) {
