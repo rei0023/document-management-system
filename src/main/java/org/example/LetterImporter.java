@@ -7,7 +7,7 @@ import java.util.Map;
 import static org.example.Attributes.*;
 
 public class LetterImporter implements Importer {
-    private static final String NAME_PREFIX = "Dear";
+    private static final String NAME_PREFIX = "Dear ";
     private static final int LINE_ADDRESS = 2;
     private static final String END_BODY_WORD = "regards,";
 
