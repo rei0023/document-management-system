@@ -2,12 +2,14 @@ package org.example;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class DocumentManagementSystemTest {
     private static final String RESOURCE_PATH = "src/test/resources/";
@@ -58,7 +60,6 @@ public class DocumentManagementSystemTest {
                         "We discussed his switch from drinking Coke to Diet Coke.\n" +
                         "No new problems were noted with his teeth.");
         assertTypeIs("REPORT", document);
-
     }
 
     @Test
@@ -71,6 +72,18 @@ public class DocumentManagementSystemTest {
         assertAttributesEquals(document, Attributes.HEIGHT, "360");
         assertTypeIs("IMAGE", document);
 
+    }
+
+    @Test
+    public void shouldNotImportMissingFile() throws IOException {
+        assertThrows(FileNotFoundException.class,
+                () -> documentManagementSystem.importFile("aFile.txt"));
+    }
+
+    @Test
+    public void shouldNotImportUnknownFile() throws IOException {
+        assertThrows(UnknownFileTypeException.class,
+                () -> documentManagementSystem.importFile(RESOURCE_PATH + "unknown.txt"));
     }
 
     private void assertTypeIs(String type, Document document) {
