@@ -13,6 +13,7 @@ public class DocumentManagementSystemTest {
     private static final String RESOURCE_PATH = "src/test/resources/";
     private static final String LETTER_PATH = RESOURCE_PATH + "patient.letter";
     private static final String XRAY_PATH = RESOURCE_PATH + "xray.jpg";
+    private static final String REPORT_PATH = RESOURCE_PATH + "patient.report";
     private static final String PATIENT_NAME = "Alan Turing";
 
     private final DocumentManagementSystem documentManagementSystem = new DocumentManagementSystem();
@@ -43,6 +44,21 @@ public class DocumentManagementSystemTest {
                         "with Dr. Avaj from 29 December 2024 to 5th January 2025.");
 
         assertTypeIs("LETTER", document);
+    }
+
+    @Test
+    public void shouldImportReportAttributes() throws IOException {
+        documentManagementSystem.importFile(REPORT_PATH);
+
+        final Document document = getOnlyOneDocument();
+
+        assertAttributesEquals(document, Attributes.PATIENT, PATIENT_NAME);
+        assertAttributesEquals(document, Attributes.BODY,
+                "On 5th January 2017 I examined Joe's teeth.\n" +
+                        "We discussed his switch from drinking Coke to Diet Coke.\n" +
+                        "No new problems were noted with his teeth.");
+        assertTypeIs("REPORT", document);
+
     }
 
     @Test
